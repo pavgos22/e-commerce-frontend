@@ -41,7 +41,7 @@ export class FormService {
           nonNullable: true,
         }),
       },
-      { validators: [equivalentValidator('password', 'repeatedPassword')] },
+      { validators: [equivalentValidator('password', 'repeatedPassword')] }
     );
   }
 

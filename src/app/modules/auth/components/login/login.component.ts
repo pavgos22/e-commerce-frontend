@@ -19,7 +19,7 @@ export class LoginComponent implements OnDestroy {
   }
   constructor(
     private formSerivce: FormService,
-    private store: Store<AppState>,
+    private store: Store<AppState>
   ) {}
 
   getErrorMessage(control: FormControl) {
@@ -28,7 +28,7 @@ export class LoginComponent implements OnDestroy {
 
   onLogin() {
     this.store.dispatch(
-      AuthActions.login({ loginData: this.loginForm.getRawValue() }),
+      AuthActions.login({ loginData: this.loginForm.getRawValue() })
     );
   }
 

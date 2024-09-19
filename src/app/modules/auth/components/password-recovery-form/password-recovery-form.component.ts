@@ -1,9 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormService } from '../../../core/services/form.service';
-import {
-  PasswdRecoveryForm,
-  PasswordsForm,
-} from '../../../core/models/forms.model';
+import { PasswordsForm } from '../../../core/models/forms.model';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 
@@ -20,6 +17,11 @@ export class PasswordRecoveryFormComponent implements OnInit {
     return this.passwordsForm.controls;
   }
 
+  constructor(
+    private formService: FormService,
+    private route: ActivatedRoute
+  ) {}
+
   ngOnInit(): void {
     this.route.paramMap.subscribe({
       next: (param) => {
@@ -27,11 +29,6 @@ export class PasswordRecoveryFormComponent implements OnInit {
       },
     });
   }
-
-  constructor(
-    private formService: FormService,
-    private route: ActivatedRoute,
-  ) {}
 
   getErrorMessage(control: FormControl<string>): string {
     return this.formService.getErrorMessage(control);

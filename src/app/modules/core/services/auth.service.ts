@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../../../environments/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
 import {
   AuthResponse,
   ChangePasswordData,
@@ -10,31 +9,33 @@ import {
   RegisterData,
   ResetPasswordData,
 } from '../models/auth.model';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  apiUrl = environment.apiUrl;
-
+  apiUrl = `${environment.apiUrl}/auth`;
   constructor(private http: HttpClient) {}
 
   login(body: LoginData): Observable<IUser> {
     return this.http.post<IUser>(`${this.apiUrl}/login`, body);
   }
 
-  logout(): Observable<IUser> {
-    return this.http.get<IUser>(`${this.apiUrl}/login`);
+  logout(): Observable<AuthResponse> {
+    return this.http.get<AuthResponse>(`${this.apiUrl}/logout`);
   }
 
   register(body: RegisterData): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(`${this.apiUrl}/logout`, body);
+    return this.http.post<AuthResponse>(`${this.apiUrl}/register`, body);
   }
 
-  activateAccount(uid: string): Observable<IUser> {
+  activateAccount(uid: string): Observable<AuthResponse> {
     const params = new HttpParams().append('uid', uid);
 
-    return this.http.get<IUser>(`${this.apiUrl}/activate`, { params });
+    return this.http.get<AuthResponse>(`${this.apiUrl}/activate`, {
+      params,
+    });
   }
 
   resetPassword(body: ResetPasswordData): Observable<AuthResponse> {

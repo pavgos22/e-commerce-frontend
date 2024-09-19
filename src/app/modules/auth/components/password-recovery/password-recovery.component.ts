@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormService } from '../../../core/services/form.service';
-import { PasswdRecoveryForm } from '../../../core/models/forms.model';
 import { FormControl, FormGroup } from '@angular/forms';
+import { PasswdRecoveryForm } from '../../../core/models/forms.model';
 
 @Component({
   selector: 'app-password-recovery',

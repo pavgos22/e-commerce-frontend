@@ -13,29 +13,29 @@ const CLEAR_ERROR_TYPE = '[Auth] Clear Error';
 
 export const login = createAction(
   LOGIN_TYPE,
-  props<{ loginData: LoginData }>(),
+  props<{ loginData: LoginData }>()
 );
 
 export const loginSuccess = createAction(
   LOGIN_SUCCESS_TYPE,
-  props<{ user: IUser }>(),
+  props<{ user: IUser }>()
 );
 
 export const loginFailure = createAction(
   LOGIN_FAILURE_TYPE,
-  props<{ error: string }>(),
+  props<{ error: string }>()
 );
 
 export const register = createAction(
   REGISTER_TYPE,
-  props<{ registerData: RegisterData }>(),
+  props<{ registerData: RegisterData }>()
 );
 
 export const registerSuccess = createAction(REGISTER_SUCCESS_TYPE);
 
 export const registerFailure = createAction(
   REGISTER_FAILURE_TYPE,
-  props<{ error: string }>(),
+  props<{ error: string }>()
 );
 
 export const clearError = createAction(CLEAR_ERROR_TYPE);

@@ -48,7 +48,7 @@ const _authReducer = createReducer(
   on(AuthActions.clearError, (state, action) => ({
     ...state,
     error: null,
-  })),
+  }))
 );
 
 export function authReducer(state: AuthState | undefined, action: Action) {

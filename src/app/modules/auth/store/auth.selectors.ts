@@ -4,17 +4,16 @@ import { AuthState } from './auth.reducer';
 
 export const selectAuth = (state: AppState) => state.auth;
 
-export const selectAuthError = createSelector(
-  selectAuth,
-  (state: AuthState) => state.error,
-);
-
 export const selectAuthUser = createSelector(
   selectAuth,
-  (state: AuthState) => state.user,
+  (state: AuthState) => state.user
 );
 
 export const selectAuthLoading = createSelector(
   selectAuth,
-  (state: AuthState) => state.loading,
+  (state: AuthState) => state.loading
+);
+export const selectAuthError = createSelector(
+  selectAuth,
+  (state: AuthState) => state.error
 );
