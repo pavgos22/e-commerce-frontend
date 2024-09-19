@@ -15,15 +15,15 @@ export class AccountActivationComponent implements OnInit {
     private route: ActivatedRoute,
     private authService: AuthService,
     private notifierService: NotifierService,
-    private router: Router,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
     this.route.paramMap
       .pipe(
         switchMap((params) =>
-          this.authService.activateAccount(params.get('uid') as string),
-        ),
+          this.authService.activateAccount(params.get('uid') as string)
+        )
       )
       .subscribe({
         next: (response) => {
