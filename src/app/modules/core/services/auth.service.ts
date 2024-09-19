@@ -7,23 +7,27 @@ import {
   IUser,
   LoginData,
   RegisterData,
-  ResetPasswordData,
+  ResetPasswordData
 } from '../models/auth.model';
 import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class AuthService {
   apiUrl = `${environment.apiUrl}/auth`;
   constructor(private http: HttpClient) {}
 
   login(body: LoginData): Observable<IUser> {
-    return this.http.post<IUser>(`${this.apiUrl}/login`, body);
+    return this.http.post<IUser>(`${this.apiUrl}/login`, body, {
+      withCredentials: true
+    });
   }
 
   logout(): Observable<AuthResponse> {
-    return this.http.get<AuthResponse>(`${this.apiUrl}/logout`);
+    return this.http.get<AuthResponse>(`${this.apiUrl}/logout`, {
+      withCredentials: true
+    });
   }
 
   register(body: RegisterData): Observable<AuthResponse> {
@@ -34,7 +38,7 @@ export class AuthService {
     const params = new HttpParams().append('uid', uid);
 
     return this.http.get<AuthResponse>(`${this.apiUrl}/activate`, {
-      params,
+      params
     });
   }
 

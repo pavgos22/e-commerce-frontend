@@ -8,20 +8,43 @@ import { NotifierService } from 'angular-notifier';
 
 @Injectable()
 export class AuthEffects {
-  login$ = createEffect(() =>
-    this.actions$.pipe(
+  login$ = createEffect(() => {
+    return this.actions$.pipe(
       ofType(AuthActions.login),
       switchMap((action) => {
         return this.authService.login(action.loginData).pipe(
-          map((user) => AuthActions.loginSuccess({ user: { ...user } })),
+          map((user) => {
+            this.router.navigate(['/']);
+            this.notifierService.notify('success', 'Poprawnie zalogowano się!');
+            return AuthActions.loginSuccess({ user: { ...user } });
+          }),
           catchError((err) => of(AuthActions.loginFailure({ error: err })))
         );
       })
-    )
-  );
+    );
+  });
 
-  register$ = createEffect(() =>
-    this.actions$.pipe(
+  logout$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(AuthActions.logout),
+      switchMap(() => {
+        return this.authService.logout().pipe(
+          map(() => {
+            this.router.navigate(['/logowanie']);
+            this.notifierService.notify('success', 'Wylogowano się.');
+            return AuthActions.logoutSuccess();
+          }),
+          catchError((err) => {
+            this.notifierService.notify('warning', err);
+            return of(AuthActions.logoutFailure());
+          })
+        );
+      })
+    );
+  });
+
+  register$ = createEffect(() => {
+    return this.actions$.pipe(
       ofType(AuthActions.register),
       switchMap((action) => {
         return this.authService.register(action.registerData).pipe(
@@ -34,12 +57,13 @@ export class AuthEffects {
             return AuthActions.registerSuccess();
           }),
           catchError((err) => {
+            console.log(err);
             return of(AuthActions.loginFailure({ error: err }));
           })
         );
       })
-    )
-  );
+    );
+  });
   constructor(
     private actions$: Actions,
     private authService: AuthService,
