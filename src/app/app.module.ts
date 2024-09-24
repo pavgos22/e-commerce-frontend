@@ -16,15 +16,15 @@ const customNotifier: NotifierOptions = {
   position: {
     horizontal: {
       position: 'right',
-      distance: 12,
+      distance: 12
     },
     vertical: {
       position: 'top',
       distance: 12,
-      gap: 10,
-    },
+      gap: 10
+    }
   },
-  theme: 'material',
+  theme: 'material'
 };
 
 @NgModule({
@@ -37,9 +37,9 @@ const customNotifier: NotifierOptions = {
     BrowserAnimationsModule,
     StoreModule.forRoot({ auth: authReducer }),
     EffectsModule.forRoot([AuthEffects]),
-    NotifierModule.withConfig(customNotifier),
+    NotifierModule.withConfig(customNotifier)
   ],
   providers: [],
-  bootstrap: [AppComponent],
+  bootstrap: [AppComponent]
 })
 export class AppModule {}
