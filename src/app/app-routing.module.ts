@@ -5,17 +5,19 @@ const routes: Routes = [
   {
     path: '',
     loadChildren: () =>
-      import('./modules/home/home.module').then((m) => m.HomeModule)
+      import('./modules/home/home.module').then((m) => m.HomeModule),
   },
   {
     path: 'produkty',
     loadChildren: () =>
-      import('./modules/products/products.module').then((m) => m.ProductsModule)
-  }
+      import('./modules/products/products.module').then(
+        (m) => m.ProductsModule
+      ),
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class AppRoutingModule {}

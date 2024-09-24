@@ -10,14 +10,14 @@ import { Category } from '../../models/categories.model';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss']
+  styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent {
   user$: Observable<User | null> = this.store.select(selectAuthUser);
 
   categories: Category[] = [
     { name: 'Kategoria1', shortId: 123456 },
-    { name: 'Kategoria2', shortId: 123467 }
+    { name: 'Kategoria2', shortId: 123457 },
   ];
 
   constructor(private store: Store<AppState>) {}
