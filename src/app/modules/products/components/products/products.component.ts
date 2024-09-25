@@ -1,21 +1,74 @@
-import { AfterViewInit, Component } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, ViewChild } from '@angular/core';
 import { ProductsService } from '../../../core/services/products.service';
+import { PrimitiveProduct } from '../../../core/models/product.model';
+import { MatPaginator } from '@angular/material/paginator';
+import { map, Subscription, switchMap } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-products',
   templateUrl: './products.component.html',
   styleUrls: ['./products.component.scss']
 })
-export class ProductsComponent implements AfterViewInit {
-  products: any[] = [];
+export class ProductsComponent implements AfterViewInit, OnDestroy {
+  products: PrimitiveProduct[] = [];
+  totalCount = 0;
+  errorMessage: string | null = null;
+  sub = new Subscription();
 
-  constructor(private productService: ProductsService) {}
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+
+  constructor(
+    private productsService: ProductsService,
+    private route: ActivatedRoute,
+    private router: Router
+  ) {}
 
   ngAfterViewInit(): void {
-    this.productService.getProducts().subscribe({
-      next: (products) => {
-        console.log(products);
-      }
-    });
+    // this.productsService.getProducts().subscribe({
+    //   next: ({ products, totalCount }) => {
+    //     this.products = [...products];
+    //     this.totalCount = totalCount;
+    //   },
+    // });
+    this.route.queryParamMap
+      .pipe(
+        switchMap((queryMap) => {
+          const pageIndex = queryMap.get('strona')
+            ? Number(queryMap.get('strona'))
+            : 1;
+          const itemsPerPage = queryMap.get('limit')
+            ? Number(queryMap.get('limit'))
+            : this.paginator.pageSize;
+          return this.productsService.getProducts(pageIndex, itemsPerPage);
+        }),
+        map(({ products, totalCount }) => {
+          this.totalCount = totalCount;
+          this.products = [...products];
+        })
+      )
+      .subscribe({
+        error: (err) => {
+          this.errorMessage = err;
+        }
+      });
+
+    this.sub.add(
+      this.paginator.page.subscribe({
+        next: () => {
+          const pageIndex = this.paginator.pageIndex + 1;
+          const itemsPerPage = this.paginator.pageSize;
+
+          this.router.navigate([], {
+            relativeTo: this.route,
+            queryParams: { strona: pageIndex, limit: itemsPerPage }
+          });
+        }
+      })
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.sub.unsubscribe();
   }
 }
