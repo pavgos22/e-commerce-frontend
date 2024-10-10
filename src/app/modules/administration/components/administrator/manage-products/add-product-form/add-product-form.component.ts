@@ -14,7 +14,7 @@ import { ProductsService } from '../../../../../core/services/products.service';
 @Component({
   selector: 'app-add-product-form',
   templateUrl: './add-product-form.component.html',
-  styleUrls: ['./add-product-form.component.scss']
+  styleUrls: ['./add-product-form.component.scss'],
 })
 export class AddProductFormComponent {
   config: AngularEditorConfig = this.imageService.config;
@@ -61,7 +61,7 @@ export class AddProductFormComponent {
         },
         error: (err) => {
           this.errorImageUploadMsg = err;
-        }
+        },
       });
     }
   }
@@ -103,7 +103,7 @@ export class AddProductFormComponent {
       ...formValue,
       price: Number(formValue.price),
       parameters,
-      imagesUuid
+      imagesUuid,
     };
 
     this.productsService.addProduct(addProductData).subscribe({
@@ -114,7 +114,7 @@ export class AddProductFormComponent {
       },
       error: (err) => {
         this.errorMessage = err;
-      }
+      },
     });
   }
 
@@ -126,12 +126,12 @@ export class AddProductFormComponent {
     const newGroup = new FormGroup({
       key: new FormControl('', {
         validators: [Validators.required],
-        nonNullable: true
+        nonNullable: true,
       }),
       value: new FormControl('', {
         validators: [Validators.required],
-        nonNullable: true
-      })
+        nonNullable: true,
+      }),
     });
 
     this.parameters.push(newGroup);
