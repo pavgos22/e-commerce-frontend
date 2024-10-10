@@ -2,6 +2,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { CustomerFormComponent } from './customer-form/customer-form.component';
+import { AddressFormComponent } from './address-form/address-form.component';
+import { DeliveryFormComponent } from './delivery-form/delivery-form.component';
 
 @Component({
   selector: 'app-create-order',
@@ -10,6 +12,8 @@ import { CustomerFormComponent } from './customer-form/customer-form.component';
 })
 export class CreateOrderComponent implements OnInit {
   @ViewChild(CustomerFormComponent) customerFormComp!: CustomerFormComponent;
+  @ViewChild(AddressFormComponent) addressFormComp!: AddressFormComponent;
+  @ViewChild(DeliveryFormComponent) deliveryFormComp!: DeliveryFormComponent;
   constructor(private location: Location, private router: Router) {}
 
   ngOnInit(): void {
@@ -23,6 +27,12 @@ export class CreateOrderComponent implements OnInit {
   }
 
   order() {
-    console.log(this.customerFormComp.customerForm.getRawValue());
+    if (
+      this.customerFormComp.customerForm.valid &&
+      this.addressFormComp.addressForm.valid &&
+      this.deliveryFormComp.deliveryForm.valid
+    ) {
+      // wykonywac zapytanie http - dodawanie nowego zamowienia
+    }
   }
 }
