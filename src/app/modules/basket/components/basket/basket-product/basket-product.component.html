@@ -9,6 +9,6 @@
     <span>{{basketProduct.price | currency: 'zł'}}</span>
     <span>x {{basketProduct.quantity}}</span>
     <span>{{basketProduct.summaryPrice | currency: 'zł'}}</span>
-    <mat-icon class='basket-product-icon' matTooltip='Usuń produkt z koszyka'>cancel</mat-icon>
+    <mat-icon class='basket-product-icon' matTooltip='Usuń produkt z koszyka' (click)='deleteProductFromBasket()'>cancel</mat-icon>
   </div>
 </div>
