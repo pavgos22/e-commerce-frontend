@@ -14,4 +14,6 @@
   <div class='d-flex justify-content-end'>
     <button mat-raised-button color='primary' (click)='order()'>Zamawiam i płacę</button>
   </div>
+
+  <app-alert *ngIf='errorMsg' [alertType]='"warning"' [message]='errorMsg'></app-alert>
 </section>
