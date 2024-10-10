@@ -5,6 +5,9 @@ import { ProductsService } from '../../../../core/services/products.service';
 import { Product } from '../../../../core/models/product.model';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { FormControl } from '@angular/forms';
+import { BasketService } from '../../../../core/services/basket.service';
+import { PostBasketBody } from '../../../../core/models/basket.module';
+import { NotifierService } from 'angular-notifier';
 
 @Component({
   selector: 'app-product-details',
@@ -20,7 +23,9 @@ export class ProductDetailsComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private productsService: ProductsService,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private basketService: BasketService,
+    private notifierService: NotifierService
   ) {}
   ngOnInit(): void {
     this.route.paramMap
@@ -47,5 +52,23 @@ export class ProductDetailsComponent implements OnInit {
 
   addToBasket() {
     console.log(this.quantityControl.value);
+    const body: PostBasketBody = {
+      product: this.product!.uid,
+      quantity: Number(this.quantityControl.value),
+    };
+    this.basketService.addProductToBasket(body).subscribe({
+      next: () => {
+        this.notifierService.notify(
+          'success',
+          'Poprawnie dodano produkty do koszyka.'
+        );
+      },
+      error: () => {
+        this.notifierService.notify(
+          'warning',
+          'Nie udało się dodać produktu do koszyka. Spróbuj ponownie.'
+        );
+      },
+    });
   }
 }
