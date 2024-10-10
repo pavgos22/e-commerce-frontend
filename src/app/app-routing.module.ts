@@ -5,29 +5,31 @@ const routes: Routes = [
   {
     path: '',
     loadChildren: () =>
-      import('./modules/home/home.module').then((m) => m.HomeModule)
+      import('./modules/home/home.module').then((m) => m.HomeModule),
   },
   {
     path: 'produkty',
     loadChildren: () =>
-      import('./modules/products/products.module').then((m) => m.ProductsModule)
+      import('./modules/products/products.module').then(
+        (m) => m.ProductsModule
+      ),
   },
   {
     path: 'administracja',
     loadChildren: () =>
       import('./modules/administration/administration.module').then(
         (m) => m.AdministrationModule
-      )
+      ),
   },
   {
     path: 'koszyk',
     loadChildren: () =>
-      import('./modules/basket/basket.module').then((m) => m.BasketModule)
-  }
+      import('./modules/basket/basket.module').then((m) => m.BasketModule),
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class AppRoutingModule {}

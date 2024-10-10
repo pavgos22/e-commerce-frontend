@@ -4,6 +4,7 @@ import { switchMap } from 'rxjs';
 import { ProductsService } from '../../../../core/services/products.service';
 import { Product } from '../../../../core/models/product.model';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-product-details',
@@ -11,6 +12,7 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
   styleUrls: ['./product-details.component.scss'],
 })
 export class ProductDetailsComponent implements OnInit {
+  quantityControl = new FormControl(1);
   product: Product | null = null;
   htmlContent: null | SafeHtml = null;
   parameters: { [key: string]: string } | null = null;
@@ -41,5 +43,9 @@ export class ProductDetailsComponent implements OnInit {
           }
         },
       });
+  }
+
+  addToBasket() {
+    console.log(this.quantityControl.value);
   }
 }
