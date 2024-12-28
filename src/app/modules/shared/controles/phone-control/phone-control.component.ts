@@ -3,9 +3,10 @@ import {
   ControlValueAccessor,
   FormControl,
   NG_VALUE_ACCESSOR,
-  Validators,
+  Validators
 } from '@angular/forms';
 import { combineLatest, Subscription } from 'rxjs';
+import { COUNTRY_CODES } from 'src/assets/country-codes';
 
 @Component({
   selector: 'app-phone-control',
@@ -15,31 +16,30 @@ import { combineLatest, Subscription } from 'rxjs';
     {
       provide: NG_VALUE_ACCESSOR,
       useExisting: PhoneControlComponent,
-      multi: true,
-    },
-  ],
+      multi: true
+    }
+  ]
 })
 export class PhoneControlComponent implements ControlValueAccessor, OnDestroy {
-  numberPrefixControl = new FormControl('', [
-    Validators.required,
-    Validators.minLength(2),
-    Validators.maxLength(2),
-  ]);
+  numberPrefixControl = new FormControl('', [Validators.required]);
   numberControl = new FormControl('', [
     Validators.required,
-    Validators.minLength(9),
-    Validators.maxLength(9),
+    Validators.minLength(6),
+    Validators.maxLength(12),
+    Validators.pattern(/^\+?\d+$/)
   ]);
   sub = new Subscription();
+  countryCodes = COUNTRY_CODES;
+  selectedCode = '';
 
   constructor() {
     this.sub.add(
       combineLatest([
         this.numberPrefixControl.valueChanges,
-        this.numberControl.valueChanges,
+        this.numberControl.valueChanges
       ]).subscribe(([prefix, number]) => {
         if (prefix && number) {
-          this.onChange(`+${prefix}${number}`);
+          this.onChange(`${prefix}${number}`);
         } else {
           this.onChange(null);
         }
@@ -51,17 +51,14 @@ export class PhoneControlComponent implements ControlValueAccessor, OnDestroy {
 
   onTouch = () => {};
 
-  //  zostanie wywołana z funkcją, którą należy wywołać by zmienić wartość kontrolki
   registerOnChange(fn: () => void): void {
     this.onChange = fn;
   }
 
-  // zostanie wywołana z funkcją, którą należy wywołać by oznaczyć kontrolkę jako touched
   registerOnTouched(fn: () => void): void {
     this.onTouch = fn;
   }
 
-  // bedzie uzywane kiedy ktos da formControl.enable() albo disable() na kontrolce
   setDisabledState(isDisabled: boolean): void {
     if (isDisabled) {
       this.numberControl.disable();
@@ -72,14 +69,38 @@ export class PhoneControlComponent implements ControlValueAccessor, OnDestroy {
     }
   }
 
-  // zostanie uzyte kiedy ktos uzyje np. formControl.setValue()
   writeValue(value: string): void {
-    const valueWithoutPlus = value.replace('+', '');
-    const prefix = valueWithoutPlus.slice(0, 2);
-    const number = valueWithoutPlus.slice(2);
+    if (value) {
+      const valueWithoutPlus = value.startsWith('+') ? value.slice(1) : value;
+      const matchedCode = this.countryCodes.find((country) =>
+        valueWithoutPlus.startsWith(country.code.replace('+', ''))
+      );
 
-    this.numberPrefixControl.setValue(prefix);
-    this.numberControl.setValue(number);
+      if (matchedCode) {
+        const prefixLength = matchedCode.code.replace('+', '').length;
+        const prefix = valueWithoutPlus.slice(0, prefixLength);
+        const number = valueWithoutPlus.slice(prefixLength);
+
+        this.numberPrefixControl.setValue(matchedCode.code);
+        this.numberControl.setValue(number);
+      } else {
+        console.warn('No matching area code found for the number:', value);
+        this.numberPrefixControl.setValue('');
+        this.numberControl.setValue(value);
+      }
+    } else {
+      this.numberPrefixControl.setValue('');
+      this.numberControl.setValue('');
+    }
+  }
+
+  formatSelectedValue(code: string): string {
+    return code;
+  }
+
+  onCountryChange(selectedCode: string): void {
+    this.selectedCode = selectedCode;
+    this.numberPrefixControl.setValue(selectedCode);
   }
 
   ngOnDestroy(): void {

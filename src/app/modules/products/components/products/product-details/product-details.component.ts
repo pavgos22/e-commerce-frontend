@@ -5,14 +5,14 @@ import { ProductsService } from '../../../../core/services/products.service';
 import { Product } from '../../../../core/models/product.model';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { FormControl } from '@angular/forms';
-import { BasketService } from '../../../../core/services/basket.service';
-import { PostBasketBody } from '../../../../core/models/basket.module';
+import { CartService } from '../../../../core/services/cart.service';
+import { PostCartBody } from '../../../../core/models/cart.module';
 import { NotifierService } from 'angular-notifier';
 
 @Component({
   selector: 'app-product-details',
   templateUrl: './product-details.component.html',
-  styleUrls: ['./product-details.component.scss'],
+  styleUrls: ['./product-details.component.scss']
 })
 export class ProductDetailsComponent implements OnInit {
   quantityControl = new FormControl(1);
@@ -24,7 +24,7 @@ export class ProductDetailsComponent implements OnInit {
     private route: ActivatedRoute,
     private productsService: ProductsService,
     private sanitizer: DomSanitizer,
-    private basketService: BasketService,
+    private cartService: CartService,
     private notifierService: NotifierService
   ) {}
   ngOnInit(): void {
@@ -41,22 +41,30 @@ export class ProductDetailsComponent implements OnInit {
           this.htmlContent = this.sanitizer.bypassSecurityTrustHtml(
             product.descHtml
           );
-          try {
-            this.parameters = JSON.parse(product.parameters);
-          } catch (e) {
-            this.parameters = null;
-          }
+
+          this.parameters = product.parameters;
         },
+        error: (err) => {
+          console.error('Error fetching product details:', err);
+        }
       });
   }
 
-  addToBasket() {
+  logParameter(parameter: { key: string; value: string }) {
+    if (!parameter || !parameter.key || !parameter.value) {
+      console.log('Parameter is null:', parameter);
+      return;
+    }
+    console.log(`Key: ${parameter.key}, Value: ${parameter.value}`);
+  }
+
+  addToCart() {
     console.log(this.quantityControl.value);
-    const body: PostBasketBody = {
+    const body: PostCartBody = {
       product: this.product!.uid,
-      quantity: Number(this.quantityControl.value),
+      quantity: Number(this.quantityControl.value)
     };
-    this.basketService.addProductToBasket(body).subscribe({
+    this.cartService.addProductToCart(body).subscribe({
       next: () => {
         this.notifierService.notify(
           'success',
@@ -68,7 +76,7 @@ export class ProductDetailsComponent implements OnInit {
           'warning',
           'Nie udało się dodać produktu do koszyka. Spróbuj ponownie.'
         );
-      },
+      }
     });
   }
 }

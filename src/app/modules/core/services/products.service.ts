@@ -7,11 +7,11 @@ import {
   GetProductsResponse,
   PrimitiveProduct,
   Product,
-  ProductResponse,
+  ProductResponse
 } from '../models/product.model';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class ProductsService {
   apiUrl = `${environment.apiUrl}/product`;
@@ -24,7 +24,7 @@ export class ProductsService {
       .append('data', date);
 
     return this.http.get<Product>(`${this.apiUrl}`, {
-      params,
+      params
     });
   }
 
@@ -32,8 +32,8 @@ export class ProductsService {
     pageIndex = 1,
     itemsPerPage = 5,
     name: string | null = null,
-    sortElement: string | null = null,
-    order: string | null = null,
+    sortElement: string | null = 'priority',
+    order: string | null = 'desc',
     category: string | null = null
   ): Observable<GetProductsResponse> {
     let params = new HttpParams()
@@ -59,7 +59,7 @@ export class ProductsService {
     return this.http
       .get<PrimitiveProduct[]>(`${this.apiUrl}`, {
         observe: 'response',
-        params,
+        params
       })
       .pipe(
         map((response) => {
@@ -74,15 +74,35 @@ export class ProductsService {
 
   addProduct(addProductData: AddProductData): Observable<ProductResponse> {
     return this.http.post<ProductResponse>(`${this.apiUrl}`, addProductData, {
-      withCredentials: true,
+      withCredentials: true
     });
+  }
+
+  updateProduct(
+    uuid: string,
+    updateData: { price: number; discount: boolean; discountedPrice: number }
+  ): Observable<any> {
+    const params = new HttpParams().set('uuid', uuid);
+    return this.http.patch(`${this.apiUrl}/discount`, updateData, {
+      params,
+      withCredentials: true
+    });
+  }
+
+  updatePriority(uuid: string, priority: number): Observable<any> {
+    const url = `${this.apiUrl}/priority?uuid=${uuid}`;
+    return this.http.patch(url, { priority }, { withCredentials: true });
   }
 
   deleteProduct(uuid: string): Observable<ProductResponse> {
     const params = new HttpParams().append('uuid', uuid);
     return this.http.delete<ProductResponse>(`${this.apiUrl}`, {
       params,
-      withCredentials: true,
+      withCredentials: true
     });
+  }
+
+  getProductByUid(uuid: string): Observable<PrimitiveProduct> {
+    return this.http.get<PrimitiveProduct>(`${this.apiUrl}/${uuid}`);
   }
 }

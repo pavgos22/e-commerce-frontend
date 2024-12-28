@@ -8,19 +8,19 @@ import { PasswordRecoveryFormComponent } from './components/password-recovery-fo
 import { UnauthGuard } from '../core/guards/unauth.guard';
 
 const routes: Routes = [
-  { path: 'logowanie', component: LoginComponent, canActivate: [UnauthGuard] },
+  { path: 'login', component: LoginComponent, canActivate: [UnauthGuard] },
   {
-    path: 'rejestracja',
+    path: 'register',
     component: RegisterComponent,
-    canActivate: [UnauthGuard],
+    canActivate: [UnauthGuard]
   },
-  { path: 'aktywuj/:uid', component: AccountActivationComponent },
-  { path: 'odzyskaj-haslo', component: PasswordRecoveryComponent },
-  { path: 'odzyskaj-haslo/:uid', component: PasswordRecoveryFormComponent },
+  { path: 'activate/:uid', component: AccountActivationComponent },
+  { path: 'password-recovery', component: PasswordRecoveryComponent },
+  { path: 'password-recovery/:uid', component: PasswordRecoveryFormComponent }
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule],
+  exports: [RouterModule]
 })
 export class AuthRoutingModule {}

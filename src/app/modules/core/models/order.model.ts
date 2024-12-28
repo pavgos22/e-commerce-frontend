@@ -1,7 +1,7 @@
 import { Customer } from './customer.model';
 import { Address } from './address.model';
 import { GetDelivery, PostDelivery } from './delivery.model';
-import { BasketProduct } from './basket.module';
+import { CartProduct } from './cart.module';
 
 export interface GetOrderResponse {
   uuid: string;
@@ -10,8 +10,12 @@ export interface GetOrderResponse {
   customerDetails: Customer;
   address: Address;
   deliver: GetDelivery;
-  items: BasketProduct[];
+  items: CartProduct[];
   summaryPrice: number;
+  isCompany: boolean;
+  companyName: string;
+  nip: string;
+  info: string;
 }
 
 export type GetOrdersResponse = Omit<

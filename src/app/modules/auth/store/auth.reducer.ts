@@ -11,20 +11,20 @@ export interface AuthState {
 const initialState: AuthState = {
   user: null,
   loading: false,
-  error: null,
+  error: null
 };
 
 const _authReducer = createReducer(
   initialState,
   on(AuthActions.login, AuthActions.register, (state, action) => ({
     ...state,
-    loading: true,
+    loading: true
   })),
   on(AuthActions.loginSuccess, (state, action) => ({
     ...state,
     loading: false,
     user: new User(action.user.login, action.user.email, action.user.role),
-    error: null,
+    error: null
   })),
   on(
     AuthActions.loginFailure,
@@ -32,7 +32,8 @@ const _authReducer = createReducer(
     (state, action) => ({
       ...state,
       loading: false,
-      error: action.error,
+      user: null,
+      error: action.error
     })
   ),
   on(
@@ -41,26 +42,26 @@ const _authReducer = createReducer(
     AuthActions.logout,
     AuthActions.logoutFailure,
     (state, action) => ({
-      ...state,
+      ...state
     })
   ),
   on(AuthActions.autoLoginSuccess, (state, action) => ({
     ...state,
-    user: new User(action.user.login, action.user.email, action.user.role),
+    user: new User(action.user.login, action.user.email, action.user.role)
   })),
   on(AuthActions.logoutSuccess, (state, action) => ({
     ...state,
     user: null,
-    error: null,
+    error: null
   })),
   on(AuthActions.registerSuccess, (state, action) => ({
     ...state,
     loading: false,
-    error: null,
+    error: null
   })),
   on(AuthActions.clearError, (state, action) => ({
     ...state,
-    error: null,
+    error: null
   }))
 );
 

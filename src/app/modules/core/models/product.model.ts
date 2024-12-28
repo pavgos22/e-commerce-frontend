@@ -1,9 +1,13 @@
 export interface PrimitiveProduct {
+  uid: string;
   name: string;
   price: number;
   createAt: string;
   imageUrl: string;
   mainDesc: string;
+  discount: boolean;
+  discountedPrice: number;
+  priority: number;
 }
 
 export interface Product extends Omit<PrimitiveProduct, 'imageUrl'> {
@@ -11,11 +15,13 @@ export interface Product extends Omit<PrimitiveProduct, 'imageUrl'> {
   activate: boolean;
   descHtml: string;
   imageUrls: string[];
-  parameters: string;
+  parameters: { [key: string]: string };
   categoryDTO: {
     name: string;
     shortId: string;
   };
+  discount: boolean;
+  discountedPrice: number;
 }
 
 export interface GetProductsResponse {

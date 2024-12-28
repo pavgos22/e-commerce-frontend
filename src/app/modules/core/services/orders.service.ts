@@ -5,12 +5,12 @@ import {
   GetOrderResponse,
   GetOrdersResponse,
   PostOrderBody,
-  PostOrderResponse,
+  PostOrderResponse
 } from '../models/order.model';
 import { Observable, tap } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class OrdersService {
   apiUrl = `${environment.apiUrl}/order`;
@@ -20,20 +20,20 @@ export class OrdersService {
   getOrder(uuid: string): Observable<GetOrderResponse> {
     const params = new HttpParams().append('uuid', uuid);
     return this.http.get<GetOrderResponse>(`${this.apiUrl}`, {
-      params,
+      params
     });
   }
 
   getOrders(): Observable<GetOrdersResponse[]> {
     return this.http.get<GetOrdersResponse[]>(`${this.apiUrl}`, {
-      withCredentials: true,
+      withCredentials: true
     });
   }
 
   addOrder(body: PostOrderBody): Observable<PostOrderResponse> {
     return this.http
       .post<PostOrderResponse>(`${this.apiUrl}`, body, {
-        withCredentials: true,
+        withCredentials: true
       })
       .pipe(
         tap((resp) => {

@@ -7,7 +7,7 @@ import { NotifierService } from 'angular-notifier';
 @Component({
   selector: 'app-delete-product-dialog',
   templateUrl: './delete-product-dialog.component.html',
-  styleUrls: ['./delete-product-dialog.component.scss'],
+  styleUrls: ['./delete-product-dialog.component.scss']
 })
 export class DeleteProductDialogComponent implements OnInit {
   product: Product | null = null;
@@ -26,7 +26,7 @@ export class DeleteProductDialogComponent implements OnInit {
       },
       error: (err) => {
         this.errorMessage = err;
-      },
+      }
     });
   }
 
@@ -39,7 +39,7 @@ export class DeleteProductDialogComponent implements OnInit {
         },
         error: (err) => {
           this.errorMessage = err;
-        },
+        }
       });
     }
   }

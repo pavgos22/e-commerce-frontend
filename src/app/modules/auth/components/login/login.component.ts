@@ -11,7 +11,7 @@ import { selectAuthError, selectAuthLoading } from '../../store/auth.selectors';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss'],
+  styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnDestroy {
   loginForm: FormGroup<LoginForm> = this.formSerivce.initLoginForm();

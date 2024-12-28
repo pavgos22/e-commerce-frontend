@@ -6,7 +6,8 @@ import { AlertComponent } from './components/alert/alert.component';
 import { QuantityControlComponent } from './controles/quantity-control/quantity-control.component';
 import { InputOnlyNumberDirective } from './directives/input-only-number.directive';
 import { PhoneControlComponent } from './controles/phone-control/phone-control.component';
-import { BasketProductComponent } from './components/basket-product/basket-product.component';
+import { CartProductComponent } from './components/cart-product/cart-product.component';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @NgModule({
   declarations: [
@@ -14,7 +15,7 @@ import { BasketProductComponent } from './components/basket-product/basket-produ
     QuantityControlComponent,
     InputOnlyNumberDirective,
     PhoneControlComponent,
-    BasketProductComponent,
+    CartProductComponent
   ],
   imports: [CommonModule, ReactiveFormsModule, MaterialModule],
   exports: [
@@ -22,9 +23,10 @@ import { BasketProductComponent } from './components/basket-product/basket-produ
     MaterialModule,
     ReactiveFormsModule,
     AlertComponent,
-    BasketProductComponent,
+    CartProductComponent,
     QuantityControlComponent,
     PhoneControlComponent,
-  ],
+    MatCheckboxModule
+  ]
 })
 export class SharedModule {}

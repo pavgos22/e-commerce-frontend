@@ -8,34 +8,34 @@ import { selectAuthUser } from '../../../auth/store/auth.selectors';
 import { Category } from '../../models/categories.model';
 import { CategoriesService } from '../../services/categories.service';
 import { Router } from '@angular/router';
-import { BasketService } from '../../services/basket.service';
+import { CartService } from '../../services/cart.service';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss'],
+  styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
   user$: Observable<User | null> = this.store.select(selectAuthUser);
-  basketTotalCount$: BehaviorSubject<number> = this.basketService.totalCount$;
+  cartTotalCount$: BehaviorSubject<number> = this.cartService.totalCount$;
 
   categories: Category[] = [
     { name: 'meble', shortId: 12345678 },
-    { name: 'kuchenne', shortId: 22345678 },
+    { name: 'kuchenne', shortId: 22345678 }
   ];
 
   constructor(
     private store: Store<AppState>,
     private categoriesService: CategoriesService,
     private router: Router,
-    private basketService: BasketService
+    private cartService: CartService
   ) {}
 
   ngOnInit(): void {
     this.categoriesService.getCategories().subscribe({
       next: (categories) => {
         this.categories = [...categories];
-      },
+      }
     });
   }
 
@@ -44,10 +44,10 @@ export class HeaderComponent implements OnInit {
   }
 
   navigateToCategory(category: Category) {
-    this.router.navigate(['/produkty'], {
+    this.router.navigate(['/products'], {
       queryParams: {
-        kategoria: category.shortId,
-      },
+        category: category.shortId
+      }
     });
   }
 

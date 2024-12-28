@@ -8,7 +8,7 @@ import { NotifierService } from 'angular-notifier';
 @Component({
   selector: 'app-password-recovery',
   templateUrl: './password-recovery.component.html',
-  styleUrls: ['./password-recovery.component.scss'],
+  styleUrls: ['./password-recovery.component.scss']
 })
 export class PasswordRecoveryComponent {
   passwdRecoveryForm: FormGroup<PasswdRecoveryForm> =
@@ -38,7 +38,7 @@ export class PasswordRecoveryComponent {
         },
         error: (err) => {
           this.errorMessage = err;
-        },
+        }
       });
   }
 }

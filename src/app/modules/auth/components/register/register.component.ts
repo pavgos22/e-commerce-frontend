@@ -11,7 +11,7 @@ import { selectAuthError, selectAuthLoading } from '../../store/auth.selectors';
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
-  styleUrls: ['./register.component.scss'],
+  styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent implements OnDestroy {
   registerForm: FormGroup<RegisterForm> = this.formService.initRegisterForm();

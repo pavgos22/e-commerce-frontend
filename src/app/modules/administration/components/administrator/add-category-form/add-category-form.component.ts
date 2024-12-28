@@ -7,7 +7,7 @@ import { CategoriesService } from '../../../../core/services/categories.service'
 @Component({
   selector: 'app-add-category-form',
   templateUrl: './add-category-form.component.html',
-  styleUrls: ['./add-category-form.component.scss'],
+  styleUrls: ['./add-category-form.component.scss']
 })
 export class AddCategoryFormComponent {
   addCategoryForm: FormGroup<AddCategoryForm> =
@@ -30,7 +30,7 @@ export class AddCategoryFormComponent {
         },
         error: (err) => {
           this.errorMsg = err;
-        },
+        }
       });
   }
 

@@ -2,7 +2,7 @@ import { Component, OnDestroy } from '@angular/core';
 import {
   ControlValueAccessor,
   FormControl,
-  NG_VALUE_ACCESSOR,
+  NG_VALUE_ACCESSOR
 } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
@@ -14,9 +14,9 @@ import { Subscription } from 'rxjs';
     {
       provide: NG_VALUE_ACCESSOR,
       useExisting: QuantityControlComponent,
-      multi: true,
-    },
-  ],
+      multi: true
+    }
+  ]
 })
 export class QuantityControlComponent
   implements ControlValueAccessor, OnDestroy
@@ -32,8 +32,12 @@ export class QuantityControlComponent
     );
   }
 
-  onChange = (value: string | null) => {};
-  onTouch = () => {};
+  onChange = (value: string | null) => {
+    /* empty */
+  };
+  onTouch = () => {
+    /* empty */
+  };
   decrement() {
     const currentValue = Number(this.quantityControl.value);
     if (currentValue > 1) {

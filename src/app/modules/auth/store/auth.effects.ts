@@ -8,8 +8,8 @@ import { NotifierService } from 'angular-notifier';
 
 @Injectable()
 export class AuthEffects {
-  login$ = createEffect(() =>
-    this.actions$.pipe(
+  login$ = createEffect(() => {
+    return this.actions$.pipe(
       ofType(AuthActions.login),
       switchMap((action) => {
         return this.authService.login(action.loginData).pipe(
@@ -18,15 +18,25 @@ export class AuthEffects {
             this.notifierService.notify('success', 'Poprawnie zalogowano się!');
             return AuthActions.loginSuccess({ user: { ...user } });
           }),
-          catchError((err) => of(AuthActions.loginFailure({ error: err })))
+          catchError((err) => {
+            let errorMessage = 'Błąd logowania';
+            if (err.error?.code === 'A2') {
+              errorMessage = 'Podane dane są nieprawidłowe';
+            }
+            return of(
+              AuthActions.loginFailure({
+                error: errorMessage
+              })
+            );
+          })
         );
       })
-    )
-  );
+    );
+  });
 
   autoLogin$ = createEffect(
-    () =>
-      this.actions$.pipe(
+    () => {
+      return this.actions$.pipe(
         ofType(AuthActions.autoLogin),
         switchMap(() => {
           return this.authService.autoLogin().pipe(
@@ -36,17 +46,18 @@ export class AuthEffects {
             catchError((err) => of(AuthActions.autoLoginFailure()))
           );
         })
-      )
+      );
+    }
     // { dispatch: false }
   );
 
-  logout$ = createEffect(() =>
-    this.actions$.pipe(
+  logout$ = createEffect(() => {
+    return this.actions$.pipe(
       ofType(AuthActions.logout),
       switchMap(() => {
         return this.authService.logout().pipe(
           map(() => {
-            this.router.navigate(['/logowanie']);
+            this.router.navigate(['/login']);
             this.notifierService.notify('success', 'Wylogowano się.');
             return AuthActions.logoutSuccess();
           }),
@@ -56,16 +67,16 @@ export class AuthEffects {
           })
         );
       })
-    )
-  );
+    );
+  });
 
-  register$ = createEffect(() =>
-    this.actions$.pipe(
+  register$ = createEffect(() => {
+    return this.actions$.pipe(
       ofType(AuthActions.register),
       switchMap((action) => {
         return this.authService.register(action.registerData).pipe(
           map((user) => {
-            this.router.navigate(['/logowanie']);
+            this.router.navigate(['/login']);
             this.notifierService.notify(
               'success',
               'Poprawnie utworzono konto użytkownika! Aktywuj konto na podanym adresie e-mail.'
@@ -78,8 +89,8 @@ export class AuthEffects {
           })
         );
       })
-    )
-  );
+    );
+  });
   constructor(
     private actions$: Actions,
     private authService: AuthService,

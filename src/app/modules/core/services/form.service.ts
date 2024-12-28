@@ -9,20 +9,20 @@ import {
   PasswdRecoveryForm,
   PasswordsForm,
   PostProduct,
-  RegisterForm,
+  RegisterForm
 } from '../models/forms.model';
 import { equivalentValidator } from '../../shared/validators/equivalent.validator';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class FormService {
   initAddCategoryForm(): FormGroup<AddCategoryForm> {
     return new FormGroup({
       name: new FormControl('', {
         validators: [Validators.required],
-        nonNullable: true,
-      }),
+        nonNullable: true
+      })
     });
   }
 
@@ -30,44 +30,44 @@ export class FormService {
     return new FormGroup({
       name: new FormControl('', {
         validators: [Validators.required],
-        nonNullable: true,
+        nonNullable: true
       }),
       mainDesc: new FormControl('', {
         validators: [Validators.required],
-        nonNullable: true,
+        nonNullable: true
       }),
       descHtml: new FormControl('', {
         validators: [Validators.required],
-        nonNullable: true,
+        nonNullable: true
       }),
       price: new FormControl('', {
         validators: [Validators.required],
-        nonNullable: true,
+        nonNullable: true
       }),
       category: new FormControl('', {
         validators: [Validators.required],
-        nonNullable: true,
+        nonNullable: true
       }),
       parameters: new FormArray([
         new FormGroup({
           key: new FormControl('', {
             validators: [Validators.required],
-            nonNullable: true,
+            nonNullable: true
           }),
           value: new FormControl('', {
             validators: [Validators.required],
-            nonNullable: true,
-          }),
-        }),
-      ]),
+            nonNullable: true
+          })
+        })
+      ])
     });
   }
   initPasswdRecoveryForm(): FormGroup<PasswdRecoveryForm> {
     return new FormGroup({
       email: new FormControl('', {
         validators: [Validators.required, Validators.email],
-        nonNullable: true,
-      }),
+        nonNullable: true
+      })
     });
   }
 
@@ -75,24 +75,25 @@ export class FormService {
     return new FormGroup({
       firstName: new FormControl('', {
         validators: [Validators.required],
-        nonNullable: true,
+        nonNullable: true
       }),
       lastName: new FormControl('', {
         validators: [Validators.required],
-        nonNullable: true,
+        nonNullable: true
       }),
       email: new FormControl('', {
         validators: [Validators.required, Validators.email],
-        nonNullable: true,
+        nonNullable: true
       }),
       phone: new FormControl('', {
         validators: [
           Validators.required,
-          Validators.minLength(12),
-          Validators.maxLength(12),
+          Validators.minLength(6),
+          Validators.maxLength(14),
+          Validators.pattern(/^\+?\d+$/)
         ],
-        nonNullable: true,
-      }),
+        nonNullable: true
+      })
     });
   }
 
@@ -100,20 +101,20 @@ export class FormService {
     return new FormGroup({
       city: new FormControl('', {
         validators: [Validators.required],
-        nonNullable: true,
+        nonNullable: true
       }),
       street: new FormControl('', {
         validators: [Validators.required],
-        nonNullable: true,
+        nonNullable: true
       }),
       number: new FormControl('', {
         validators: [Validators.required],
-        nonNullable: true,
+        nonNullable: true
       }),
       postCode: new FormControl('', {
         validators: [Validators.required, Validators.pattern(/^\d{2}-\d{3}$/)],
-        nonNullable: true,
-      }),
+        nonNullable: true
+      })
     });
   }
 
@@ -121,8 +122,8 @@ export class FormService {
     return new FormGroup({
       uuid: new FormControl('', {
         validators: [Validators.required],
-        nonNullable: true,
-      }),
+        nonNullable: true
+      })
     });
   }
 
@@ -133,18 +134,18 @@ export class FormService {
           validators: [
             Validators.required,
             Validators.minLength(8),
-            Validators.maxLength(75),
+            Validators.maxLength(75)
           ],
-          nonNullable: true,
+          nonNullable: true
         }),
         repeatedPassword: new FormControl('', {
           validators: [
             Validators.required,
             Validators.minLength(8),
-            Validators.maxLength(75),
+            Validators.maxLength(75)
           ],
-          nonNullable: true,
-        }),
+          nonNullable: true
+        })
       },
       { validators: [equivalentValidator('password', 'repeatedPassword')] }
     );
@@ -156,18 +157,18 @@ export class FormService {
         validators: [
           Validators.required,
           Validators.minLength(8),
-          Validators.maxLength(50),
+          Validators.maxLength(50)
         ],
-        nonNullable: true,
+        nonNullable: true
       }),
       password: new FormControl('', {
         validators: [
           Validators.required,
           Validators.minLength(8),
-          Validators.maxLength(75),
+          Validators.maxLength(75)
         ],
-        nonNullable: true,
-      }),
+        nonNullable: true
+      })
     });
   }
 
@@ -175,32 +176,32 @@ export class FormService {
     return new FormGroup({
       email: new FormControl('', {
         validators: [Validators.required, Validators.email],
-        nonNullable: true,
+        nonNullable: true
       }),
       login: new FormControl('', {
         validators: [
           Validators.required,
           Validators.minLength(8),
-          Validators.maxLength(50),
+          Validators.maxLength(50)
         ],
-        nonNullable: true,
+        nonNullable: true
       }),
       password: new FormControl('', {
         validators: [
           Validators.required,
           Validators.minLength(8),
-          Validators.maxLength(75),
+          Validators.maxLength(75)
         ],
-        nonNullable: true,
+        nonNullable: true
       }),
       repeatedPassword: new FormControl('', {
         validators: [
           Validators.required,
           Validators.minLength(8),
-          Validators.maxLength(75),
+          Validators.maxLength(75)
         ],
-        nonNullable: true,
-      }),
+        nonNullable: true
+      })
     });
   }
 
@@ -231,7 +232,73 @@ export class FormService {
     if (control.hasError('passwordsNotEqual')) {
       return 'Hasła muszą być takie same.';
     }
-
     return '';
+  }
+
+  initProfileForm(): FormGroup {
+    return new FormGroup({
+      firstName: new FormControl('', [Validators.required]),
+      lastName: new FormControl('', [Validators.required]),
+      email: new FormControl('', [Validators.required, Validators.email]),
+      phone: new FormControl('', [
+        Validators.required,
+        Validators.minLength(6),
+        Validators.maxLength(14)
+      ]),
+      city: new FormControl('', [Validators.required]),
+      street: new FormControl('', [Validators.required]),
+      number: new FormControl('', [Validators.required]),
+      postCode: new FormControl('', [
+        Validators.required,
+        Validators.pattern(/^\d{2}-\d{3}$/)
+      ]),
+      company: new FormControl(false),
+      companyName: new FormControl({ value: '', disabled: true }, []),
+      nip: new FormControl({ value: '', disabled: true }, [
+        Validators.pattern(/^\d{10}$/)
+      ])
+    });
+  }
+
+  initCompanyForm(): FormGroup {
+    return new FormGroup({
+      companyName: new FormControl('', {}),
+      nip: new FormControl('', {
+        validators: [Validators.pattern(/^\d{10}$/)]
+      })
+    });
+  }
+
+  initInfoForm(): FormGroup {
+    return new FormGroup({
+      info: new FormControl('', {
+        validators: [Validators.maxLength(1000)]
+      })
+    });
+  }
+
+  initEditProductForm(): FormGroup {
+    return new FormGroup({
+      price: new FormControl(0, {
+        validators: [Validators.required, Validators.min(0)],
+        nonNullable: true
+      }),
+      discount: new FormControl(false, {
+        nonNullable: true
+      }),
+      discountedPrice: new FormControl(0, {
+        validators: [Validators.min(0)],
+        nonNullable: true
+      })
+    });
+  }
+
+  initPriorityEditForm(): FormGroup {
+    return new FormGroup({
+      priority: new FormControl(0, {
+        validators: [Validators.required, Validators.min(0)],
+        nonNullable: true
+      })
+    });
   }
 }

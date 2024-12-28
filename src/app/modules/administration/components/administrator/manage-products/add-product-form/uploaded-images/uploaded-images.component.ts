@@ -5,7 +5,7 @@ import { ImageService } from '../../../../../../core/services/image.service';
 @Component({
   selector: 'app-uploaded-images',
   templateUrl: './uploaded-images.component.html',
-  styleUrls: ['./uploaded-images.component.scss'],
+  styleUrls: ['./uploaded-images.component.scss']
 })
 export class UploadedImagesComponent implements OnInit {
   @Input() imageUrls: Image[] = [];
@@ -36,7 +36,7 @@ export class UploadedImagesComponent implements OnInit {
       },
       error: (err) => {
         this.errorMsg = err;
-      },
+      }
     });
   }
 }

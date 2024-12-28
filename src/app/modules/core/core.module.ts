@@ -6,21 +6,22 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { ErrorHandlingInterceptor } from './interceptors/error-handling.interceptor';
 import { MatPaginatorIntl } from '@angular/material/paginator';
 import { MatPaginatorCustomIntl } from './material/mat-paginator-custom-intl';
+import { CookieNotifyComponent } from './components/cookie-notify/cookie-notify.component';
 
 @NgModule({
-  declarations: [HeaderComponent],
+  declarations: [HeaderComponent, CookieNotifyComponent],
   imports: [SharedModule, HttpClientModule, RouterLink, RouterLinkActive],
-  exports: [HeaderComponent],
+  exports: [HeaderComponent, CookieNotifyComponent],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
       useClass: ErrorHandlingInterceptor,
-      multi: true,
+      multi: true
     },
     {
       provide: MatPaginatorIntl,
-      useClass: MatPaginatorCustomIntl,
-    },
-  ],
+      useClass: MatPaginatorCustomIntl
+    }
+  ]
 })
 export class CoreModule {}

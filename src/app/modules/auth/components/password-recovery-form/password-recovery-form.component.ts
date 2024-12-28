@@ -9,7 +9,7 @@ import { NotifierService } from 'angular-notifier';
 @Component({
   selector: 'app-password-recovery-form',
   templateUrl: './password-recovery-form.component.html',
-  styleUrls: ['./password-recovery-form.component.scss'],
+  styleUrls: ['./password-recovery-form.component.scss']
 })
 export class PasswordRecoveryFormComponent implements OnInit {
   passwordsForm: FormGroup<PasswordsForm> =
@@ -34,7 +34,7 @@ export class PasswordRecoveryFormComponent implements OnInit {
     this.route.paramMap.subscribe({
       next: (param) => {
         this.uid = param.get('uid') as string;
-      },
+      }
     });
   }
 
@@ -42,20 +42,54 @@ export class PasswordRecoveryFormComponent implements OnInit {
     return this.formService.getErrorMessage(control);
   }
 
-  onPasswdChange() {
+  onPasswdChange(): void {
     const { password } = this.passwordsForm.getRawValue();
 
     this.authService.changePassword({ password, uid: this.uid }).subscribe({
       next: () => {
-        this.router.navigate(['/logowanie']);
-        this.notifierService.notify(
-          'success',
-          'Poprawnie zmieniono hasło, możesz się zalogować.'
-        );
+        this.authService.isLoggedIn().subscribe({
+          next: (response) => {
+            if (response.message) {
+              this.authService.logout().subscribe({
+                next: () => {
+                  this.router.navigate(['/login']);
+                  this.notifierService.notify(
+                    'success',
+                    'Poprawnie zmieniono hasło. Możesz się zalogować.'
+                  );
+                },
+                error: () => {
+                  this.router.navigate(['/login']);
+                  this.notifierService.notify(
+                    'error',
+                    'Hasło zostało zmienione, ale wystąpił problem z wylogowaniem. Zaloguj się ponownie.'
+                  );
+                }
+              });
+            } else {
+              this.router.navigate(['/login']);
+              this.notifierService.notify(
+                'success',
+                'Poprawnie zmieniono hasło. Możesz się zalogować.'
+              );
+            }
+          },
+          error: () => {
+            this.router.navigate(['/login']);
+            this.notifierService.notify(
+              'error',
+              'Hasło zostało zmienione, zaloguj się ponownie!'
+            );
+          }
+        });
       },
       error: (err) => {
         this.errorMessage = err;
-      },
+        this.notifierService.notify(
+          'error',
+          'Wystąpił problem podczas zmiany hasła. Spróbuj ponownie.'
+        );
+      }
     });
   }
 }

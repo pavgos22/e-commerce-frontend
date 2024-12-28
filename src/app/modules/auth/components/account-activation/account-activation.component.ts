@@ -7,7 +7,7 @@ import { NotifierService } from 'angular-notifier';
 @Component({
   selector: 'app-account-activation',
   templateUrl: './account-activation.component.html',
-  styleUrls: ['./account-activation.component.scss'],
+  styleUrls: ['./account-activation.component.scss']
 })
 export class AccountActivationComponent implements OnInit {
   errorMessage: null | string = null;
@@ -27,13 +27,12 @@ export class AccountActivationComponent implements OnInit {
       )
       .subscribe({
         next: (response) => {
-          //
-          this.router.navigate(['/logowanie']);
+          this.router.navigate(['/login']);
           this.notifierService.notify('success', response.message);
         },
         error: (err) => {
           this.errorMessage = err;
-        },
+        }
       });
   }
 }

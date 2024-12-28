@@ -25,7 +25,7 @@ import { MatListModule } from '@angular/material/list';
     MatTooltipModule,
     MatDialogModule,
     MatRadioModule,
-    MatListModule,
-  ],
+    MatListModule
+  ]
 })
 export class MaterialModule {}

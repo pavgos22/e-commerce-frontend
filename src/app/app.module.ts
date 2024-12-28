@@ -13,20 +13,21 @@ import { NotifierModule, NotifierOptions } from 'angular-notifier';
 import { AuthEffects } from './modules/auth/store/auth.effects';
 import localePl from '@angular/common/locales/pl';
 import { registerLocaleData } from '@angular/common';
+import { MatDialogModule } from '@angular/material/dialog';
 
 const customNotifier: NotifierOptions = {
   position: {
     horizontal: {
       position: 'right',
-      distance: 12,
+      distance: 12
     },
     vertical: {
       position: 'top',
       distance: 12,
-      gap: 10,
-    },
+      gap: 10
+    }
   },
-  theme: 'material',
+  theme: 'material'
 };
 
 registerLocaleData(localePl);
@@ -42,13 +43,14 @@ registerLocaleData(localePl);
     StoreModule.forRoot({ auth: authReducer }),
     EffectsModule.forRoot([AuthEffects]),
     NotifierModule.withConfig(customNotifier),
+    MatDialogModule
   ],
   providers: [
     {
       provide: LOCALE_ID,
-      useValue: 'pl',
-    },
+      useValue: 'pl'
+    }
   ],
-  bootstrap: [AppComponent],
+  bootstrap: [AppComponent]
 })
 export class AppModule {}

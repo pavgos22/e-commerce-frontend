@@ -4,7 +4,7 @@ import {
   distinctUntilChanged,
   map,
   Observable,
-  switchMap,
+  switchMap
 } from 'rxjs';
 import { PrimitiveProduct } from '../../../../../core/models/product.model';
 import { FormControl } from '@angular/forms';
@@ -15,7 +15,7 @@ import { DeleteProductDialogComponent } from './delete-product-dialog/delete-pro
 @Component({
   selector: 'app-delete-product-form',
   templateUrl: './delete-product-form.component.html',
-  styleUrls: ['./delete-product-form.component.scss'],
+  styleUrls: ['./delete-product-form.component.scss']
 })
 export class DeleteProductFormComponent implements OnInit {
   searchControl = new FormControl<string>('');
@@ -41,12 +41,12 @@ export class DeleteProductFormComponent implements OnInit {
     const date = productCreationDate.replaceAll('-', '');
     const dialog = this.dialog.open(DeleteProductDialogComponent, {
       data: { name: productName, date },
-      panelClass: 'dialog',
+      panelClass: 'dialog'
     });
     dialog.afterClosed().subscribe({
       next: () => {
         this.searchControl.reset();
-      },
+      }
     });
   }
 }

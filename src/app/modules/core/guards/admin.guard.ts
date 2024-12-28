@@ -4,7 +4,7 @@ import {
   CanActivate,
   Router,
   RouterStateSnapshot,
-  UrlTree,
+  UrlTree
 } from '@angular/router';
 import { catchError, map, Observable, of, switchMap, take } from 'rxjs';
 import { AuthService } from '../services/auth.service';
@@ -13,7 +13,7 @@ import { AppState } from '../../../store/app.reducer';
 import { selectAuthUser } from '../../auth/store/auth.selectors';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class AdminGuard implements CanActivate {
   constructor(
